@@ -1,0 +1,30 @@
+{
+  "app": {
+    "name": "Image Description Analyzer",
+    "version": "1.0.1",
+    "author": "nykadamec",
+    "github": "https://github.com/nykadamec/desc/web-nextjs",
+    "description": "Next.js application for analyzing and describing images with AI capabilities",
+    "port": 4000
+  },
+  "components": {
+    "button": {
+      "variants": ["primary", "secondary", "outline", "ghost"],
+      "sizes": ["sm", "md", "lg", "full"],
+      "features": ["icons", "loading", "disabled", "accessibility"]
+    }
+  },
+  "dependencies": {
+    "ui": ["tailwindcss", "lucide-react", "clsx", "tailwind-merge"],
+    "framework": ["next", "react", "typescript"],
+    "database": ["better-sqlite3"],
+    "auth": ["argon2"],
+    "state": ["zustand"]
+  },
+  "development": {
+    "packageManager": "pnpm",
+    "nodeVersion": ">=18.0.0",
+    "typescript": true,
+    "eslint": true
+  }
+}
