@@ -161,7 +161,6 @@ Analýza obrázku pomocí AI modelu.
 
   ```bash
   pnpm install
-  pnpm exec playwright install --with-deps   # first run only
   pnpm screenshots
   ```
 
