@@ -1,98 +1,178 @@
-# Image Description Analyzer
+<div align="center">
 
-A modern web application (Next.js + TypeScript + Tailwind) for analyzing images and generating AI-powered descriptions, tags and safety insights.
+# 🔍 Image Description Analyzer
 
-![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js) ![React](https://img.shields.io/badge/React-18-61dafb?logo=react) ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![License](https://img.shields.io/badge/License-MIT-lightgrey)
+### 🚀 AI-Powered Image Analysis with Next.js
 
-## Screenshots
+*Upload images and get intelligent descriptions, tags, and safety insights powered by OpenAI and Google Gemini*
 
-Upload and analyze
+</div>
 
-<img src="./docs/screenshots/screenshot-1.png" alt="Upload and analyze" width="900" />
+<div align="center">
 
-Settings & API key
+[![Next.js](https://img.shields.io/badge/Next.js-15.1.3-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-<img src="./docs/screenshots/screenshot-2.png" alt="Settings and API key" width="900" />
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![pnpm](https://img.shields.io/badge/pnpm-8+-F69220?style=for-the-badge&logo=pnpm&logoColor=white)](https://pnpm.io/)
 
-Analysis result
+</div>
 
-<img src="./docs/screenshots/screenshot-3.png" alt="Analysis results" width="900" />
+## 📸 Screenshots
 
-## Quickstart
+<details>
+<summary><strong>👆 Click to expand screenshots</strong></summary>
 
-Requirements:
-- Node.js 18+
-- pnpm (repo uses a pnpm lockfile; npm/yarn also work)
+### Upload and analyze
+<img src="./docs/screenshots/screenshot-1.png" alt="Upload and analyze interface" width="900" />
 
-Clone and run locally:
+### Settings & API key management  
+<img src="./docs/screenshots/screenshot-2.png" alt="Settings and API key configuration" width="900" />
+
+### Analysis results
+<img src="./docs/screenshots/screenshot-3.png" alt="AI-generated analysis results" width="900" />
+
+</details>
+
+## 🚀 Quick Start
+
+### Prerequisites
+- 📦 **Node.js** 18+ 
+- 🔧 **pnpm** (recommended - repo uses pnpm lockfile)
+
+### Installation
 
 ```bash
+# Clone the repository
 git clone https://github.com/nykadamec/web-nextjs.git
+
+# Navigate to project directory
 cd web-nextjs
+
+# Install dependencies
 pnpm install
+
+# Start development server
 pnpm dev
 ```
 
-The dev server runs on port 4000 by default (see `package.json` scripts).
+🌐 **The app will be available at** [`http://localhost:4000`](http://localhost:4000)
 
-Available scripts (package.json):
+### 📜 Available Scripts
 
-- `pnpm dev` — start dev server (Next.js) on port 4000
-- `pnpm build` — build for production
-- `pnpm start` — start production server on port 4000
-- `pnpm lint` — run linter
-- `pnpm typecheck` — run TypeScript checks
-- `pnpm screenshots` — generate screenshots using Playwright
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | 🏃‍♂️ Start development server (port 4000) |
+| `pnpm build` | 🏗️ Build for production |
+| `pnpm start` | 🚀 Start production server |
+| `pnpm lint` | 🧹 Run ESLint |
+| `pnpm typecheck` | 🔍 Run TypeScript checks |
+| `pnpm screenshots` | 📷 Generate screenshots with Playwright |
 
-Generate screenshots (optional):
+### 📸 Generate Screenshots (Optional)
 
 ```bash
-pnpm install
-pnpm exec playwright install --with-deps   # first run only
+# Install Playwright browsers (one-time setup)
+pnpm exec playwright install --with-deps
+
+# Generate fresh screenshots
 pnpm screenshots
 ```
 
-## Features
+## ✨ Features
 
-- Upload images (drag & drop or file picker)
-- AI-generated description, tags, and a simple safety score
-- Local settings and API key management
-- Small persisted history using SQLite
+- 🖼️ **Image Upload** - Drag & drop or file picker support
+- 🤖 **AI Analysis** - Generate descriptions, tags, and safety scores
+- 🔑 **API Management** - Secure local storage of provider keys
+- 💾 **Persistent History** - SQLite database for settings and history
+- 🎨 **Modern UI** - Clean, responsive design with dark mode
+- ⚡ **Fast Performance** - Built with Next.js 15 and optimized assets
 
-## Configuration
+## ⚙️ Configuration
 
-- Manage provider API keys in the app; settings are persisted to `data/database.db`.
-- See `docs/api-key-management.md` for details.
-- If you prefer environment variables, add a `.env.local` in the project root and configure keys there.
+### 🔐 API Keys
+- Manage provider API keys directly in the app
+- Settings are persisted to `data/database.db`
+- See [`docs/api-key-management.md`](docs/api-key-management.md) for detailed setup
 
-## Project structure
+### 🌐 Environment Variables (Optional)
+If you prefer environment-based configuration, create `.env.local`:
 
-- `src/app` — Next.js app routes and pages
-- `src/components` — React components
-- `src/hooks` — custom hooks
-- `src/lib` — utilities and database access
-- `data/` — local SQLite database
-- `docs/` — documentation and screenshots
+```env
+# API Keys
+OPENAI_API_KEY="sk-your-openai-key"
+GEMINI_API_KEY="your-gemini-key"
 
-## Tests
+# Database
+DATABASE_URL="sqlite:./data/database.db"
 
-There is a small unit test under `src/lib/__tests__/`.
-
-If no test runner is configured locally, you can still run type checks with:
-
-```bash
-pnpm typecheck
+# App Settings  
+NEXT_PUBLIC_APP_URL="http://localhost:4000"
 ```
 
-## Contributing
+## 📁 Project Structure
 
-Contributions are welcome. Please open an issue to discuss larger changes. For code contributions, create a feature branch, add tests where sensible, and open a pull request.
+```
+web-nextjs/
+├── 📂 src/
+│   ├── 📂 app/              # Next.js app routes and pages
+│   ├── 📂 components/       # Reusable React components
+│   ├── 📂 hooks/           # Custom React hooks
+│   └── 📂 lib/             # Utilities and database access
+├── 📂 data/                # SQLite database storage
+├── 📂 docs/                # Documentation and screenshots
+└── 📂 scripts/             # Build and utility scripts
+```
 
-## Privacy & Security
+## 🧪 Testing
 
-Depending on configuration, the app may send images or derived text to third‑party AI providers. Do not upload sensitive content unless you trust the configured provider.
+Unit tests are located in `src/lib/__tests__/`.
 
-## License
+```bash
+# Run type checking
+pnpm typecheck
 
-MIT. If you want an explicit license file in the repo, I can add `LICENSE` (MIT) on request.
+# Run linting
+pnpm lint
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how you can help:
+
+1. 🍴 **Fork** the repository
+2. 🌿 **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. 💾 **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. 📤 **Push** to the branch (`git push origin feature/amazing-feature`)
+5. 🔀 **Open** a Pull Request
+
+### 📝 Guidelines
+- Open an issue first for major changes
+- Add tests for new functionality where applicable
+- Follow the existing code style
+- Update documentation as needed
+
+## 🔒 Privacy & Security
+
+> **⚠️ Important Notice**
+> 
+> This application may send images or derived text to third-party AI providers (OpenAI, Google Gemini) depending on your configuration. 
+> 
+> **Do not upload sensitive, private, or confidential content** unless you trust the configured AI provider and understand their data handling policies.
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+<div align="center">
+
+**Made with ❤️ using Next.js, TypeScript, and Tailwind CSS**
+
+[⭐ Star this repo](https://github.com/nykadamec/web-nextjs) • [🐛 Report Bug](https://github.com/nykadamec/web-nextjs/issues) • [💡 Request Feature](https://github.com/nykadamec/web-nextjs/issues)
+
+</div>
     "language": "english",
