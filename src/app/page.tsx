@@ -5,7 +5,6 @@ import {
   Upload,
   Image as ImageIcon,
   Copy,
-  Loader2,
   CheckCircle,
   Settings,
   Maximize2,
@@ -15,6 +14,9 @@ import {
 import useUpload from "@/hooks/useUpload";
 import useSettings from "@/hooks/useSettings";
 import SettingsModal from "@/components/SettingsModal";
+import ThemeToggle from "@/components/ThemeToggle";
+import LoadingIndicator from "@/components/LoadingIndicator";
+import SettingsLoader from "@/components/SettingsLoader";
 
 export default function AIImageDescriber() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -162,34 +164,38 @@ export default function AIImageDescriber() {
 
   if (settingsLoading) {
     return (
-      <div data-name="loading-container" className="min-h-screen bg-white flex items-center justify-center">
-        <div data-name="loading-content" className="text-center">
-          <Loader2 className="w-8 h-8 text-gray-400 animate-spin mx-auto mb-3" />
-          <p data-name="loading-text" className="text-gray-600">Načítám nastavení...</p>
-        </div>
+      <div data-name="loading-container" className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
+        <SettingsLoader
+          size="lg"
+          text="Načítám nastavení..."
+          data-name="page-settings-loader"
+        />
       </div>
     );
   }
 
   return (
-    <div data-name="main-container" className="min-h-screen bg-white">
+    <div data-name="main-container" className="min-h-screen bg-white dark:bg-gray-900">
       {/* Header */}
-      <header data-name="main-header" className="border-b border-gray-200 px-6 py-4">
+      <header data-name="main-header" className="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
         <div data-name="header-content" className="max-w-7xl mx-auto flex items-center justify-between">
           <div data-name="header-brand" className="flex items-center gap-3">
-            <div data-name="brand-icon" className="w-8 h-8 bg-black rounded-md flex items-center justify-center">
+            <div data-name="brand-icon" className="w-8 h-8 bg-black dark:bg-blue-600 rounded-md flex items-center justify-center">
               <ImageIcon className="w-4 h-4 text-white" strokeWidth={1.5} />
             </div>
-            <h1 data-name="brand-title" className="text-xl font-bold text-gray-900">AI Image Describer</h1>
+            <h1 data-name="brand-title" className="text-xl font-bold text-gray-900 dark:text-white">AI Image Describer</h1>
           </div>
-          <button
-            data-name="settings-button"
-            onClick={() => setShowSettings(!showSettings)}
-            className="flex items-center gap-2 px-3 py-2 text-sm text-black border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-          >
-            <Settings className="w-4 h-4 text-black" />
-            Settings
-          </button>
+          <div data-name="header-actions" className="flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              data-name="settings-button"
+              onClick={() => setShowSettings(!showSettings)}
+              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            >
+              <Settings className="w-4 h-4 text-gray-900 dark:text-white" />
+              Settings
+            </button>
+          </div>
         </div>
       </header>
 
@@ -207,8 +213,8 @@ export default function AIImageDescriber() {
 
         {/* Hero Section */}
         <div data-name="hero-section" className="text-center mb-8">
-          <h2 data-name="hero-title" className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Describe Any Image with AI</h2>
-          <p data-name="hero-description" className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 data-name="hero-title" className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Describe Any Image with AI</h2>
+          <p data-name="hero-description" className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Upload an image and get a detailed, intelligent description powered by advanced AI vision technology.
           </p>
         </div>
@@ -218,15 +224,15 @@ export default function AIImageDescriber() {
           <div data-name="upload-container" className="max-w-2xl mx-auto">
             <div
               data-name="upload-area"
-              className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors cursor-pointer"
+              className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer"
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onClick={() => fileInputRef.current?.click()}
             >
-              <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p data-name="upload-title" className="text-lg font-medium text-gray-900 mb-2">Drop your image here, or click to browse</p>
-              <p data-name="upload-subtitle" className="text-sm text-gray-500 mb-4">Supports PNG, JPEG, WEBP, and GIF files up to 10MB</p>
-              <button data-name="choose-file-button" className="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800 transition-colors">Choose File</button>
+              <Upload className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+              <p data-name="upload-title" className="text-lg font-medium text-gray-900 dark:text-white mb-2">Drop your image here, or click to browse</p>
+              <p data-name="upload-subtitle" className="text-sm text-gray-500 dark:text-gray-400 mb-4">Supports PNG, JPEG, WEBP, and GIF files up to 10MB</p>
+              <button data-name="choose-file-button" className="bg-gray-900 dark:bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors">Choose File</button>
             </div>
             <input
               data-name="file-input"
@@ -243,12 +249,12 @@ export default function AIImageDescriber() {
             {/* Image Preview */}
             <div data-name="image-preview-section" className="space-y-4">
               <div data-name="image-preview-header" className="flex items-center justify-between">
-                <h3 data-name="image-preview-title" className="text-lg font-semibold text-gray-900">Uploaded Image</h3>
+                <h3 data-name="image-preview-title" className="text-lg font-semibold text-gray-900 dark:text-white">Uploaded Image</h3>
                 <div data-name="image-preview-actions" className="flex items-center gap-3">
                   <button
                     data-name="image-size-toggle-button"
                     onClick={() => setIsFullSize(!isFullSize)}
-                    className="flex items-center text-black gap-2 px-3 py-1.5 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                    className="flex items-center text-gray-900 dark:text-white gap-2 px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                     title={isFullSize ? "Fit to container" : "View full size"}
                   >
                     {isFullSize ? (
@@ -272,14 +278,14 @@ export default function AIImageDescriber() {
                       setError(null);
                       setIsFullSize(false);
                     }}
-                    className="flex items-center text-black gap-2 px-3 py-1.5 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                    className="flex items-center text-gray-900 dark:text-white gap-2 px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                   >
                     <Upload className="w-4 h-4" />
                     Upload New
                   </button>
                 </div>
               </div>
-              <div data-name="image-preview-container" className={`border border-gray-200 rounded-lg ${isFullSize ? 'p-2' : 'p-4'} ${isFullSize ? 'overflow-auto max-h-[80vh]' : ''}`}>
+              <div data-name="image-preview-container" className={`border border-gray-200 dark:border-gray-700 rounded-lg ${isFullSize ? 'p-2' : 'p-4'} ${isFullSize ? 'overflow-auto max-h-[80vh]' : ''}`}>
                 <img
                   data-name="image-preview"
                   src={imagePreview || ""}
@@ -288,7 +294,7 @@ export default function AIImageDescriber() {
                 />
               </div>
               {!description && !loading && (
-                <button data-name="analyze-image-button" onClick={analyzeImage} className="w-full bg-black text-white py-3 rounded-md hover:bg-gray-800 transition-colors">
+                <button data-name="analyze-image-button" onClick={analyzeImage} className="w-full bg-gray-900 dark:bg-blue-600 text-white py-3 rounded-md hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors">
                   Analyze Image
                 </button>
               )}
@@ -297,14 +303,14 @@ export default function AIImageDescriber() {
             {/* Description Area */}
             <div data-name="description-section" className="space-y-4">
               <div data-name="description-header" className="flex items-center justify-between">
-                <h3 data-name="description-title" className="text-lg font-semibold text-gray-900">AI Description</h3>
+                <h3 data-name="description-title" className="text-lg font-semibold text-gray-900 dark:text-white">AI Description</h3>
                 {description && (
                   <div className="flex items-center gap-2">
                     <button
                       data-name="redescribe-button"
                       onClick={analyzeImage}
                       disabled={loading}
-                      className="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-black disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-gray-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                       title="Regenerate description"
                     >
                       <RotateCcw className="w-4 h-4" />
@@ -321,7 +327,7 @@ export default function AIImageDescriber() {
                           console.error("Failed to copy:", err);
                         }
                       }}
-                      className="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-black"
+                      className="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-gray-900 dark:text-white"
                     >
                       {copySuccess ? (
                         <>
@@ -339,30 +345,33 @@ export default function AIImageDescriber() {
                 )}
               </div>
 
-              <div data-name="description-content" className="border border-gray-200 rounded-lg p-6 min-h-[300px]">
+              <div data-name="description-content" className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 min-h-[300px] bg-white dark:bg-gray-800">
                 {loading ? (
                   <div data-name="loading-state" className="flex items-center justify-center h-full">
-                    <div data-name="loading-spinner" className="text-center">
-                      <Loader2 className="w-8 h-8 text-gray-400 animate-spin mx-auto mb-3" />
-                      <p data-name="loading-message" className="text-gray-600">Analyzing your image...</p>
-                    </div>
+                    <LoadingIndicator
+                      size="lg"
+                      text="Analyzing your image..."
+                      variant="spinner"
+                      color="secondary"
+                      data-name="image-analysis-loader"
+                    />
                   </div>
                 ) : error ? (
                   <div data-name="error-state" className="flex items-center justify-center h-full">
                     <div data-name="error-content" className="text-center">
-                      <p data-name="error-message" className="text-red-600 mb-3">{error}</p>
-                      <button data-name="try-again-button" onClick={analyzeImage} className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors">
+                      <p data-name="error-message" className="text-red-600 dark:text-red-400 mb-3">{error}</p>
+                      <button data-name="try-again-button" onClick={analyzeImage} className="bg-gray-900 dark:bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors">
                         Try Again
                       </button>
                     </div>
                   </div>
                 ) : description ? (
-                  <div data-name="description-prose" className="prose prose-gray max-w-none">
-                    <p data-name="description-text" className="text-gray-700 leading-relaxed whitespace-pre-wrap">{description}</p>
+                  <div data-name="description-prose" className="prose prose-gray dark:prose-invert max-w-none">
+                    <p data-name="description-text" className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">{description}</p>
                   </div>
                 ) : (
                   <div data-name="empty-state" className="flex items-center justify-center h-full">
-                    <p data-name="empty-message" className="text-gray-500">Click "Analyze Image" to get started</p>
+                    <p data-name="empty-message" className="text-gray-500 dark:text-gray-400">Click "Analyze Image" to get started</p>
                   </div>
                 )}
               </div>

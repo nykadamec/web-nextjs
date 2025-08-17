@@ -1,28 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
 import useDeviceId from './useDeviceId';
-
-interface Settings {
-  language: string;
-  detailLevel: string;
-  model: string;
-  geminiModel: string;
-  apiKeys: {
-    openai: string;
-    zai: string;
-    gemini: string;
-  };
-}
+import type { Settings, UseSettingsReturn } from '@/types';
 
 /**
  * Hook pro správu nastavení s automatickým ukládáním/načítáním podle device-id
  */
-function useSettings() {
+function useSettings(): UseSettingsReturn {
   const deviceId = useDeviceId();
   
   // Výchozí nastavení
   const defaultSettings: Settings = {
     language: "english",
     detailLevel: "detailed",
+    outputLength: "normal",
+    outputStyle: "basic-ai-image-generator",
     model: "openai",
     geminiModel: "gemini-2.5-flash",
     apiKeys: {
@@ -165,3 +156,4 @@ function useSettings() {
 }
 
 export default useSettings;
+

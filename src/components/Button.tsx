@@ -72,6 +72,7 @@ export const Button: React.FC<ButtonProps> = ({
     'focus:outline-none',
     'focus:ring-2',
     'focus:ring-offset-2',
+    'dark:focus:ring-offset-gray-900',
     'disabled:opacity-50',
     'disabled:cursor-not-allowed',
     'disabled:pointer-events-none'
@@ -80,32 +81,49 @@ export const Button: React.FC<ButtonProps> = ({
   const variantClasses = {
     primary: [
       'bg-blue-600',
+      'dark:bg-blue-600',
       'text-white',
+      'dark:text-white',
       'hover:bg-blue-700',
+      'dark:hover:bg-blue-700',
       'focus:ring-blue-500',
+      'dark:focus:ring-blue-400',
       'shadow-sm'
     ],
     secondary: [
       'bg-gray-600',
+      'dark:bg-gray-700',
       'text-white',
+      'dark:text-gray-100',
       'hover:bg-gray-700',
+      'dark:hover:bg-gray-600',
       'focus:ring-gray-500',
+      'dark:focus:ring-gray-400',
       'shadow-sm'
     ],
     outline: [
       'border',
       'border-gray-300',
+      'dark:border-gray-600',
       'bg-white',
+      'dark:bg-gray-800',
       'text-gray-700',
+      'dark:text-gray-200',
       'hover:bg-gray-50',
+      'dark:hover:bg-gray-700',
       'focus:ring-blue-500',
+      'dark:focus:ring-blue-400',
       'shadow-sm'
     ],
     ghost: [
       'bg-transparent',
+      'dark:bg-transparent',
       'text-gray-600',
+      'dark:text-gray-300',
       'hover:bg-gray-100',
-      'focus:ring-gray-500'
+      'dark:hover:bg-gray-800',
+      'focus:ring-gray-500',
+      'dark:focus:ring-gray-400'
     ]
   };
 

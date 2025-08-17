@@ -1,7 +1,7 @@
 {
   "app": {
     "name": "Image Description Analyzer",
-    "version": "1.0.1",
+    "version": "1.3.1",
     "author": "nykadamec",
     "github": "https://github.com/nykadamec/desc/web-nextjs",
     "description": "Next.js application for analyzing and describing images with AI capabilities",
@@ -12,6 +12,21 @@
       "variants": ["primary", "secondary", "outline", "ghost"],
       "sizes": ["sm", "md", "lg", "full"],
       "features": ["icons", "loading", "disabled", "accessibility"]
+    },
+    "theme": {
+      "modes": ["light", "dark", "system"],
+      "features": ["localStorage persistence", "system preference detection", "smooth transitions"]
+    },
+    "loadingIndicator": {
+      "variants": ["spinner", "dots", "pulse", "bars"],
+      "sizes": ["sm", "md", "lg", "xl"],
+      "colors": ["primary", "secondary", "white", "gray"],
+      "features": ["fullScreen overlay", "accessibility", "dark mode support"]
+    },
+    "apiKeyInput": {
+      "providers": ["openai", "gemini", "zai"],
+      "features": ["validation", "show/hide toggle", "masked key detection", "real-time feedback"],
+      "security": ["input sanitization", "format validation", "debug logging"]
     }
   },
   "dependencies": {
@@ -19,7 +34,8 @@
     "framework": ["next", "react", "typescript"],
     "database": ["better-sqlite3"],
     "auth": ["argon2"],
-    "state": ["zustand"]
+    "state": ["zustand"],
+    "types": ["typescript", "global type definitions"]
   },
   "development": {
     "packageManager": "pnpm",

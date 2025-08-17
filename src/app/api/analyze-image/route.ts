@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getAPIKey, validateAPIKeyWithMessage, debugAPIKey } from '@/lib/api-keys';
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,6 +14,8 @@ export async function POST(request: NextRequest) {
     const defaultSettings = {
       language: "english",
       detailLevel: "detailed",
+      outputLength: "normal",
+      outputStyle: "basic-ai-image-generator",
       model: "openai",
       geminiModel: "gemini-2.5-flash",
       awsRegion: "us-east-1",
@@ -21,7 +24,7 @@ export async function POST(request: NextRequest) {
     const finalSettings = { ...defaultSettings, ...settings };
 
     // Create prompt based on settings
-    const createPrompt = (language: string, detailLevel: string) => {
+    const createPrompt = (language: string, detailLevel: string, outputLength: string, outputStyle: string) => {
       const languageInstructions = {
         english: "Please respond in English.",
         czech: "Please respond in Czech (České).",
@@ -30,18 +33,38 @@ export async function POST(request: NextRequest) {
       };
 
       const detailInstructions = {
-        brief: "Provide a brief, concise description of what you see in the image.",
-        detailed: "Provide a detailed description of the image, including objects, people, colors, composition, and context.",
-        extensive: "Provide an extensive, comprehensive analysis of the image including all visible elements, their relationships, colors, composition, mood, style, and any other relevant details.",
+        brief: "brief",
+        detailed: "detailed",
+        extensive: "comprehensive"
+      };
+
+      const outputLengthInstructions = {
+        short: "Keep your response concise and to the point, using approximately 50-150 words.",
+        normal: "Provide a balanced description with approximately 150-400 words.",
+        long: "Give a comprehensive and thorough description, using 400 or more words when appropriate."
+      };
+
+      const outputStyleInstructions = {
+        "basic-ai-image-generator": "Provide a straightforward, clear description of what you see in the image. Focus on the main subjects, objects, colors, and basic composition. Use simple, descriptive language without technical jargon.",
+        
+        "midjourney": "Create a structured Midjourney-style prompt description. Describe the scene with specific details about subjects, setting, style, lighting, camera angle, and artistic elements. Use concise, descriptive phrases separated by commas. Include style modifiers like 'photorealistic', 'cinematic lighting', 'detailed textures', camera specifications (wide angle, close-up, macro), and artistic references when relevant. Keep it under 40 words for optimal Midjourney processing. Focus on visual elements that translate well to artistic generation.",
+        
+        "flux1": "Generate a detailed, natural language description optimized for Flux AI model. Describe the image systematically: start with the main subject(s), then setting/environment, followed by visual style, lighting, colors, textures, and mood. Use descriptive adjectives and specific details about poses, expressions, clothing, materials, and spatial relationships. Structure as flowing, coherent sentences that would guide an AI image generator effectively. Focus on photorealistic details and natural compositions.",
+        
+        "gpt-image": "Create a technical, structured description suitable for GPT-4 vision analysis. Provide systematic coverage: identify all objects with precise spatial relationships, describe materials and textures, specify lighting conditions and color schemes, note perspective and composition rules, detail any text or symbols present. Use technical photography terms and precise measurements when possible. Organize information hierarchically from general scene to specific details.",
+        
+        "imagen4": "Generate a Google Imagen-optimized description using natural, flowing language. Focus on creating vivid, poetic descriptions that capture the essence and emotional tone of the image. Use rich adjectives, descriptive phrases about atmosphere and mood, sensory details, and contextual elements. Describe scenes as if painting with words, emphasizing artistic and aesthetic qualities that would translate into compelling image generation. Keep language accessible and evocative."
       };
 
       const langInstruction = languageInstructions[language as keyof typeof languageInstructions] || languageInstructions.english;
-      const detailInstruction = detailInstructions[detailLevel as keyof typeof detailInstructions] || detailInstructions.detailed;
+      const detailText = detailInstructions[detailLevel as keyof typeof detailInstructions] || "detailed";
+      const lengthInstruction = outputLengthInstructions[outputLength as keyof typeof outputLengthInstructions] || outputLengthInstructions.normal;
+      const styleInstruction = outputStyleInstructions[outputStyle as keyof typeof outputStyleInstructions] || outputStyleInstructions["basic-ai-image-generator"];
 
-      return `${langInstruction} ${detailInstruction}`;
+      return `${langInstruction} ${styleInstruction} Provide a ${detailText} analysis following the specified output style guidelines. ${lengthInstruction}`;
     };
 
-    const prompt = createPrompt(finalSettings.language, finalSettings.detailLevel);
+    const prompt = createPrompt(finalSettings.language, finalSettings.detailLevel, finalSettings.outputLength, finalSettings.outputStyle);
 
     console.log("Using model:", finalSettings.model);
     console.log("Generated prompt:", prompt);
@@ -53,11 +76,27 @@ export async function POST(request: NextRequest) {
       // Use OpenAI Vision API
       console.log("Using OpenAI Vision API");
 
-      const openaiApiKey = finalSettings.apiKeys?.openai || process.env.OPENAI_API_KEY;
+      // Debug API keys (safely)
+      if (finalSettings.apiKeys?.openai) {
+        debugAPIKey(finalSettings.apiKeys.openai, 'OpenAI', 'user');
+      }
+      if (process.env.OPENAI_API_KEY) {
+        debugAPIKey(process.env.OPENAI_API_KEY, 'OpenAI', 'env');
+      }
+
+      const openaiApiKey = getAPIKey(
+        finalSettings.apiKeys?.openai,
+        process.env.OPENAI_API_KEY,
+        'openai'
+      );
 
       if (!openaiApiKey) {
+        const validation = validateAPIKeyWithMessage(
+          finalSettings.apiKeys?.openai || process.env.OPENAI_API_KEY || '',
+          'openai'
+        );
         return NextResponse.json(
-          { error: "OpenAI API key is required" },
+          { error: validation.message || "Valid OpenAI API key is required" },
           { status: 401 }
         );
       }
@@ -200,7 +239,23 @@ export async function POST(request: NextRequest) {
 
       console.log("Sending request to Google Gemini API");
 
-      const geminiApiKey = finalSettings.apiKeys?.gemini || process.env.GEMINI_API_KEY;
+      const geminiApiKey = getAPIKey(
+        finalSettings.apiKeys?.gemini,
+        process.env.GEMINI_API_KEY,
+        'gemini'
+      );
+
+      if (!geminiApiKey) {
+        const validation = validateAPIKeyWithMessage(
+          finalSettings.apiKeys?.gemini || process.env.GEMINI_API_KEY || '',
+          'gemini'
+        );
+        return NextResponse.json(
+          { error: validation.message || "Valid Google Gemini API key is required" },
+          { status: 401 }
+        );
+      }
+
       const geminiApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${finalSettings.geminiModel}:generateContent?key=${geminiApiKey}`;
 
       response = await fetch(geminiApiUrl, {
