@@ -105,83 +105,105 @@ Analýza obrázku pomocí AI modelu.
 ```json
 {
   "success": true,
-  "description": "Popis obrázku...",
-  "settings": {...}
-}
-```
+  # Image Description Analyzer
 
-### `GET/POST /api/settings`
-Správa uživatelských nastavení.
+  A modern web application (Next.js + TypeScript + Tailwind) for analyzing images and generating AI-powered descriptions, tags and safety insights.
 
-### `POST /api/upload`
-Upload obrázků s konverzí na base64.
+  ![Next.js](https://img.shields.io/badge/next-15.1.3-blue?logo=next.js) ![React](https://img.shields.io/badge/react-18.2.0-61dafb?logo=react) ![Tailwind](https://img.shields.io/badge/tailwindcss-3.4-teal) ![TypeScript](https://img.shields.io/badge/typescript-%23599cfe) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-## 🎯 Funkce
+  Short summary:
 
-- ✅ **Upload obrázků** - Drag & drop, file picker
-- ✅ **AI analýza** - OpenAI GPT-4o-mini, Google Gemini
-- ✅ **Konfigurovatelná nastavení** - Jazyk, úroveň detailů, model
-- ✅ **Správa API klíčů** - Bezpečné ukládání
-- ✅ **Export výsledků** - Copy to clipboard, download
-- ✅ **Responsive design** - Mobilní a desktop
-- ✅ **TypeScript** - Type safety
-- ✅ **Databáze** - Persistence nastavení
+  - Upload images (drag & drop or file picker)
+  - Generate AI descriptions, tags and a simple safety score
+  - Store user settings and API keys locally
+  - Small persisted history using SQLite
 
-## 🔑 Získání API klíčů
+  ## Screenshots
 
-### OpenAI
-1. Jděte na [OpenAI Platform](https://platform.openai.com/)
-2. Vytvořte API klíč
-3. Nastavte v `.env.local` nebo v aplikaci
+  Upload and analyze
 
-### Google Gemini
-1. Jděte na [Google AI Studio](https://aistudio.google.com/)
-2. Vytvořte API klíč
-3. Nastavte v `.env.local` nebo v aplikaci
+  <img src="./docs/screenshots/screenshot-1.png" alt="Upload and analyze" width="900" />
 
-## 🚀 Deployment
+  Settings & API key
 
-### Vercel (doporučeno)
-```bash
-npm run build
-vercel --prod
-```
+  <img src="./docs/screenshots/screenshot-2.png" alt="Settings and API key" width="900" />
 
-### Docker
-```bash
-docker build -t image-analyzer .
-docker run -p 4000:4000 image-analyzer
-```
+  Analysis result
 
-## 🔧 Development
+  <img src="./docs/screenshots/screenshot-3.png" alt="Analysis results" width="900" />
 
-### Spuštění testů
-```bash
-npm run test
-```
+  ## Quickstart
 
-### Type checking
-```bash
-npm run typecheck
-```
+  Requirements:
+  - Node.js 18+ (recommended)
+  - pnpm (project uses pnpm lockfile, npm/yarn also supported)
 
-### Linting
-```bash
-npm run lint
-```
+  Clone and run locally:
 
-## 📝 Changelog
+  ```bash
+  git clone https://github.com/nykadamec/web-nextjs.git
+  cd web-nextjs
+  pnpm install
+  pnpm dev
+  ```
 
-Viz [changelog.md](../changelog.md) pro historii změn.
+  The dev server runs on port 4000 by default (see `package.json` scripts).
 
-## 🤝 Přispívání
+  Available scripts (package.json):
 
-1. Fork projektu
-2. Vytvořte feature branch
-3. Commitněte změny
-4. Pushněte do branch
-5. Otevřete Pull Request
+  - `pnpm dev` — start dev server (Next.js) on port 4000
+  - `pnpm build` — build for production
+  - `pnpm start` — start production server on port 4000
+  - `pnpm lint` — run linter
+  - `pnpm typecheck` — run TypeScript checks
 
-## 📄 Licence
+  Generate screenshots (optional):
 
-MIT License - viz LICENSE soubor.
+  ```bash
+  pnpm install
+  pnpm exec playwright install --with-deps   # first run only
+  pnpm screenshots
+  ```
+
+  ## Configuration
+
+  - API keys and settings are managed in-app and persist to a local SQLite DB (`data/database.db`).
+  - See `docs/api-key-management.md` for details about setting provider keys.
+
+  If you prefer environment variables, add a `.env.local` in the project root and configure keys there.
+
+  ## Project structure
+
+  - `src/app` — Next.js app routes and pages
+  - `src/components` — React components
+  - `src/hooks` — custom hooks
+  - `src/lib` — utilities and database access
+  - `data/` — local SQLite database
+
+  ## Tests
+
+  A small unit test exists under `src/lib/__tests__/`.
+
+  Run tests or type checks as configured. If you don't have a test runner installed, run `pnpm typecheck` to validate types.
+
+  ## Contributing
+
+  Contributions are welcome. Please open an issue to discuss larger changes. For code contributions, create a branch, add tests for new behavior, and submit a pull request.
+
+  ## Privacy & Security
+
+  Depending on configuration the app may send images or derived text to third-party AI providers. Do not upload sensitive content unless you trust the configured provider.
+
+  ## License
+
+  MIT. Add a `LICENSE` file to the repository if you want an explicit license artifact.
+
+  ---
+
+  Would you like me to:
+
+  - generate real screenshots from a running dev server (uses Playwright) and add them to `docs/screenshots/` via `pnpm screenshots`?
+  - generate a small `LICENSE` file (MIT)?
+  - create a simple GitHub Actions workflow for CI (typecheck + lint)?
+
+  Tell me which follow-up you prefer and I will add it.
